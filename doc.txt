@@ -1,0 +1,127 @@
+=== UITITLITY ===
++ Ctrl + Cmd + Space: insert special character
++ Storyboard ID: tên định danh
+
+=== BASIC ===
+
+*/ Khai báo:
+	let: hằng số
+	var: biến
+*/ Optional ? !
+	!: chắc chắn có giá trị, unwrap (bỏ bọc)
+	?: có thể có hoặc ko, wrap (bọc lại)
+	if let: nên dùng để bỏ bọc 1 wrap 
+
+*/ range(0, 10) python -> 0...10 swift
+
+*/ do{...} while(<condition>) python -> repeat{...} while(<condition>)
+
+**// class cha có thể chứa đc class con, nhưng class con ko thể chứa class cha
+
+=== UI ===
++ convert an object to UI: 
+if let abc = sender as? UISwitch/UiAlert...{
+	
+}
+
++ self.view.frane.size.width: lấy widdth size màn hình
++ self.view.addSubview(UI): thêm 1 UI vào màn hình
++ UI.layer.
+	.borderColor = ...
+	.borderWidth = ...
+	.cornerRadius = ...
+	.borderColor = ...
+	.cliptoBounds = true: dành cho 1 số UI khi connerRadius ko bo lại đc 
+	.font
+	.font
+	.font
+	.fontframe.size
+	.numberOfLines = 0 nếu muốn hiển thị tất cả text
+
++ UIAlert: 
+	# .present(UIAlert, ...): hiển thị alert, completion sau khi bật hộp thoại có làm gì ko
+	# .UIAlertAction: thêm các button vào Alert, alert.add(..., handler-> khi click nút này thì làm gì??)
+	# configureHandler: là txt của cái textfilde trên UIAlert
+	# alert.textFields[index].text lấy giá trị của text tring UIAlert
+	# ActionSheet là loại Alert xuất hiện ở button các button đc xếp thành 1 cột riêng button Cancel có 1 sapce vs các button khác
+
++ UISlider:
+	# maximumTrackTintColor = màu của slidebar
+	# minimumTrackTinitColor = màu của số % slidebar
+	# thumbTintColor : button color
+	# backgroundColor
+	# setThumbImage (hình, for: normal) -> một số máy sẽ bị biến thành nút button solution: add thêm setThumbImage (hình, for: hilighted)
+
++ UIPickerView: implement 2 protocol UIPickerViewDeletegate, UIPickerViewDataSrouce
+	// numberOfComponent: column numer
+	// numnberOfRowsInComponent: 
+	// titleForRow, forComponent => hiện chữ
+	// viewForRow, forCompoenet, Reusing=> hiện UIView Hình...
+	// didSelectRow: => get index selected
+	viewDidLoad: pickerView.deletegate = self = self(nếu dùng đến), pickerView.dataSource = self
+
+
++ Table: UITableView + UITableViewCell : implement 2 protocol UITableViewDeletegate -> event, UITableViewDataSrouce -> column, rows, ....
+	* Table Cell phải set định danh cho nó
+	// numberOfRowsInSection
+	// cellForRowAt -> UITableViewCell
+	// didSelectRowAt -> event select on cell
+	cellForRowAt...:
+		let cell = tableXXX.dequeueReuableCell(withIdentifier: 'định danh của cell đã set')
+		cell.setTextLabel.text = "xx"
+	viewDidLoad: tableView.deletegate = self(nếu dùng đến), tableView.dataSource = self
+
+	Custom 1 cell:
+		1> tao 1 file UiTableViewCell
+		2> gan class <1> vào UI Cell 
+		3> ep kieu: let cell:TableViewCell = tableXXX.dequeueReuableCell(withIdentifier: 'định danh của cell đã set') as! TableViewCell
+		4> từ đây có thể dùng cell. các component đã ánh xạ vào file <1>
+
++ Chuyển màn hình bằng code:
+	1> đặt định danh cho màn hình (storyboard ID)
+	2> let scr = storyboard?.isntancetiaViewController(widthIdentifier: "<1>") as XXXController
+	3> # Chuyển ko back về: present(<2>, ani...), completion: sau khi chuyển có làm gì ko
+	   # Chuyển back về: navigationController.pushViewController(xxx) 
+
++ Navigation Controller:
+	pushViewController(UIViewController, animated: Bool)
+	popViewController(animated: Bool) -> UIViewController?
+	popToRootViewController(animated: Bool) -> [UIViewController]?
+
+
++ UIGestureRecognizer: 
++ Pinch and Rotation Gestures
+
+* Nếu các UI như Image ko nhận các sự kiện như: 2 ngón tay chạm ... thì tích thêm vào User Interaction Enabled: do mặc định của UIImage khi ta kéo thả vào nó sẽ không bắt các sự kiện chạm vào chúng
+
+* Truyền param: Hiện chế dùng UserDefaults vì sẽ lưu lại data trên máy, cách tốt nhất là khai báo các biện trong class của ViewController và truy cập đến nó 
+
+=== TIMER ===
+// cách 1: 
+Timer.scheduledTimer(withTimeInterval: xx, repeat: true/false){(yy) in
+	// TODO xyz
+}
+
+// cách 2:
+Timer.scheduledTimer(timeInterval: xx, target: self, selector: #selector(ViewControler.func name), userInfor: nil, repeats: true/false){(yy) in
+	// TODO xyz
+}
+
+// Huỷ timer:
+* khai báo 1 biến timer dùng chung
+
+timer.invalidate()
+timer = nil
+
+=== Network ===
+* Lấy hình -> Data dạng Bit -> Hình
+* Https và Http: Apple chỉ cho Https còn nếu là Http thì phải cấu hình thêm trong file Infor.split:
+<key>NSAppTransportSecurity</key>
+<dict>
+	<key>NSAllowsArbitraryLoads</key>
+	<true/>
+</dict>
+	
+	+ 1 URL
+	+ <dữ liệu>.Data = Data(contentOf:URL)
+	+ img.image = UIImage(data)
