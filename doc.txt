@@ -125,3 +125,35 @@ timer = nil
 	+ 1 URL
 	+ <dữ liệu>.Data = Data(contentOf:URL)
 	+ img.image = UIImage(data)
+
+=== ASYNC/ SYNC ===
+1> Basic Queue:
+	step1: Create a Queue:
+		let queue = DispatchQueue('name_queue')
+	step2: Create a task:
+		queue.async{
+		// TODO something here!
+		}
+2> Timeout/ susscess:
+	step 1.1: Create group:
+		let group = DispatchGroup()
+	step 1.2: Start a queue:
+		group.enter()
+	step 2.1: Inside step 2 we do this: Mark to finish
+		group.leave()
+	step 3: Get result 
+		let result = group.wait(timeOut:...) -> timeOut/success
+		
+3> Change Main Queue from other place not in Main queue:
+	DispatchQueue.main.async{
+		step 2...
+	}
+  **> Can't to do this step inside Main Queue :D 	
+	
+	
+	
+	
+	
+	
+	
+	
